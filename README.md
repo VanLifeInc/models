@@ -1,5 +1,5 @@
 # models
-The fortress for our models
+Models and tools to build our image classifier.
 
 ## Setup
 
