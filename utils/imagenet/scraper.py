@@ -11,7 +11,6 @@ import requests
 import sys
 import urllib.parse
 
-
 MAIN_PAGE_URL = 'http://image-net.org/synset?wnid={}'
 SYNSET_INDEX_URL = 'http://image-net.org/python/gp.py/ImagesXML?type=synsetgood&synsetid={}&start=0&n={}'
 IMAGENET_THUMB_URL = 'http://image-net.org/nodes/{}/{}/{}/{}.thumb'
