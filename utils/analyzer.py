@@ -65,7 +65,7 @@ class Analyzer:
         
         if simple:
             accuracy = round(len(indicies_correct) / len(predictions) * 100, 2)
-            print('Overall Accuracy: {}%')
+            print('Overall Accuracy: {}%'.format(accuracy))
         else:
             counts_correct = Counter(self._get_index_for_max_value(answers[indicies_correct]))
             counts_incorrect = Counter(self._get_index_for_max_value(answers[indicies_incorrect]))
