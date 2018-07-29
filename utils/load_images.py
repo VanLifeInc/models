@@ -6,6 +6,7 @@ from keras.preprocessing.image import img_to_array, load_img
 from keras.utils import to_categorical
 from keras_applications import mobilenet_v2
 
+
 def load_images(image_types=None,
                 directory=None,
                 images_per_type=None,
@@ -24,7 +25,7 @@ def load_images(image_types=None,
         be used to train and test the model
     :param keras.application model: model for which to process the
         images
-    :return list[list]: loaded images 
+    :return list[list]: loaded images
     :return list[str]: image classes
     """
 

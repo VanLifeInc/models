@@ -8,10 +8,9 @@ from utils.load_images import load_images
 
 
 class Analyzer:
-    
+
     def __init__(self):
         pass
-
 
     def load_images(self,
                     image_types,
@@ -33,20 +32,19 @@ class Analyzer:
             can be used to train and test the model
         :param keras.application model: model for which to process the
             images
-        :return list[list]: loaded images 
+        :return list[list]: loaded images
         :return list[str]: image classes
         """
-        
+
         images, classes = load_images(image_types,
                                       directory,
                                       images_per_type,
                                       image_size,
                                       process,
                                       model)
-        
+
         return images, classes
-    
-    
+
     def predict(self, model, images):
         """
         Predict the classes of a list of images using a model.
@@ -55,11 +53,11 @@ class Analyzer:
         :param list[list[int]] images: to have their classes predicted
         :return list[int]: the predicted class for the images
         """
-    
+
         predictions = model.predict(images)
-        
+
         return predictions
-    
+
     def _get_index_for_max_value(self, values):
         """
         For a list of values, return the index of the largest value.
@@ -71,8 +69,7 @@ class Analyzer:
 
         indicies = [max(enumerate(values[i]), key=operator.itemgetter(1))[0] for i in range(len(values))]
         return indicies
-    
-    
+
     def _get_predicted_indicies(self, predictions, answers):
         """
         Get the indicies of the images that have been predicted
@@ -83,8 +80,8 @@ class Analyzer:
         :return list[int] indicies_correct: correct predictions
         :return list[int] indicies_incorrect: incorrect predictions
         """
-    
-        indicies_predictions = self._get_index_for_max_value(predictions) 
+
+        indicies_predictions = self._get_index_for_max_value(predictions)
         indicies_actuals = self._get_index_for_max_value(answers)
 
         indicies_correct = []
@@ -96,7 +93,6 @@ class Analyzer:
                 indicies_incorrect.append(i)
 
         return indicies_correct, indicies_incorrect
-    
 
     def accuracy(self, predictions, answers, simple=True, image_types=None):
         """
@@ -109,9 +105,9 @@ class Analyzer:
         :param list[int] image_types: which classes to have their
             accuracy printed
         """
-        
+
         indicies_correct, indicies_incorrect = self._get_predicted_indicies(predictions, answers)
-        
+
         if simple:
             accuracy = round(len(indicies_correct) / len(predictions) * 100, 2)
             print('Overall Accuracy: {}%'.format(accuracy))
@@ -124,11 +120,10 @@ class Analyzer:
                 percent = round(counts_correct[i] / counts_total[i] * 100, 2)
                 print('Accuracy per classification:')
                 print('{}: {}/{}, {}%'.format(image_type,
-                                            counts_correct[i],
-                                            counts_total[i],
-                                            percent))
-    
-    
+                                              counts_correct[i],
+                                              counts_total[i],
+                                              percent))
+
     def show_results(self,
                      predictions,
                      answers,
@@ -139,7 +134,7 @@ class Analyzer:
                      sample_count=None):
         """
         Print a specified group of images along with their predicted
-        confidences and true classifications. 
+        confidences and true classifications.
 
         :param list[int] predictions: predicted class of an image
         :param list[int] answers: true class of an image
@@ -152,25 +147,25 @@ class Analyzer:
             to analyze
         :param int sample_count: number of images to analyze
         """
-        
+
         if correctness != None:
             indicies_correct, indicies_incorrect = self._get_predicted_indicies(predictions, answers)
-            
+
             indicies = indicies_correct if correctness == 'correct' else indicies_incorrect
         else:
             indicies = [i for i in range(len(predictions))]
-            
+
         if specific_image_types != None:
             image_indicies = self._get_index_for_max_value(answers[indicies])
             indicies = [indicies[i] for i, index in enumerate(image_indicies)
                         if image_types[index] in specific_image_types]
-        
+
         if sample_count != None:
             if len(indicies) < sample_count:
                 print('NOTE!!!\nOnly {} images qualify for this filter.\n'.format(len(indicies)))
                 sample_count = min(sample_count, len(indicies))
             indicies = np.random.choice(indicies, size=sample_count, replace=False)
-        
+
         for i, index in enumerate(indicies):
             answer = image_types[self._get_index_for_max_value([answers[index]])[0]]
             prediction = image_types[self._get_index_for_max_value([predictions[index]])[0]]
@@ -183,4 +178,3 @@ class Analyzer:
             plt.imshow(np.uint8(images[index]))
             plt.show()
             print('------------------------------')
-            
