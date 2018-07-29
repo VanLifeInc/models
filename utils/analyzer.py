@@ -20,6 +20,22 @@ class Analyzer:
                     image_size,
                     process,
                     model):
+        """
+        Load images and classes from a directory with the option to
+        process the images to be used by a model.
+
+        :param list[str] image_types: classes of images to load
+        :param str directory: location of folders for each image class
+        :param int images_per_type: number of images to load for each
+            class
+        :param int image_size: length and width of the loaded images
+        :param bool process: option to process the images so that they
+            can be used to train and test the model
+        :param keras.application model: model for which to process the
+            images
+        :return list[list]: loaded images 
+        :return list[str]: image classes
+        """
         
         images, classes = load_images(image_types,
                                       directory,
@@ -32,34 +48,67 @@ class Analyzer:
     
     
     def predict(self, model, images):
+        """
+        Predict the classes of a list of images using a model.
+
+        :param keras.application model: will make the predictions
+        :param list[list[int]] images: to have their classes predicted
+        :return list[int]: the predicted class for the images
+        """
     
         predictions = model.predict(images)
         
         return predictions
     
     def _get_index_for_max_value(self, values):
+        """
+        For a list of values, return the index of the largest value.
+
+        :param list[int] values: to have the relevant indicies
+            returned
+        :return list[int]: the indicies related the largest values
+        """
 
         indicies = [max(enumerate(values[i]), key=operator.itemgetter(1))[0] for i in range(len(values))]
         return indicies
     
     
     def _get_predicted_indicies(self, predictions, answers):
+        """
+        Get the indicies of the images that have been predicted
+        correctly and incorrectly.
+
+        :param list[int] predictions: predicted class of an image
+        :param list[int] answers: true class of an image
+        :return list[int] indicies_correct: correct predictions
+        :return list[int] indicies_incorrect: incorrect predictions
+        """
     
-            indicies_predictions = self._get_index_for_max_value(predictions) 
-            indicies_actuals = self._get_index_for_max_value(answers)
+        indicies_predictions = self._get_index_for_max_value(predictions) 
+        indicies_actuals = self._get_index_for_max_value(answers)
 
-            indicies_correct = []
-            indicies_incorrect = []
-            for i in range(len(indicies_predictions)):
-                if indicies_predictions[i] == indicies_actuals[i]:
-                    indicies_correct.append(i)
-                else:
-                    indicies_incorrect.append(i)
+        indicies_correct = []
+        indicies_incorrect = []
+        for i in range(len(indicies_predictions)):
+            if indicies_predictions[i] == indicies_actuals[i]:
+                indicies_correct.append(i)
+            else:
+                indicies_incorrect.append(i)
 
-            return indicies_correct, indicies_incorrect
+        return indicies_correct, indicies_incorrect
     
 
     def accuracy(self, predictions, answers, simple=True, image_types=None):
+        """
+        If simple, print the overall accuracy, otherwise, print the
+        accuracy for each image type.
+
+        :param list[int] predictions: predicted class of an image
+        :param list[int] answers: true class of an image
+        :param bool simple: detail of the accuracy to print
+        :param list[int] image_types: which classes to have their
+            accuracy printed
+        """
         
         indicies_correct, indicies_incorrect = self._get_predicted_indicies(predictions, answers)
         
@@ -88,6 +137,21 @@ class Analyzer:
                      correctness=None,
                      specific_image_types=None,
                      sample_count=None):
+        """
+        Print a specified group of images along with their predicted
+        confidences and true classifications. 
+
+        :param list[int] predictions: predicted class of an image
+        :param list[int] answers: true class of an image
+        :param list[int] image_types: which classes to have their
+            results analyzed
+        :param list[list[int]] images: to have their results analyzed
+        :param str correctness: whether to analyze only correctly or
+            incorrectly predicted images
+        :param list[str] specific_image_types: which classes of images
+            to analyze
+        :param int sample_count: number of images to analyze
+        """
         
         if correctness != None:
             indicies_correct, indicies_incorrect = self._get_predicted_indicies(predictions, answers)

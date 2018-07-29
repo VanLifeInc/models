@@ -11,7 +11,22 @@ def load_images(image_types=None,
                 images_per_type=None,
                 image_size=224,
                 process=False,
-                model=mobilenet_v2):    
+                model=mobilenet_v2):
+    """
+    Load images and classes from a directory with the option to process
+    the images to be used by a model.
+
+    :param list[str] image_types: classes of images to load
+    :param str directory: location of folders for each image class
+    :param int images_per_type: number of images to load for each class
+    :param int image_size: length and width of the loaded images
+    :param bool process: option to process the images so that they can
+        be used to train and test the model
+    :param keras.application model: model for which to process the
+        images
+    :return list[list]: loaded images 
+    :return list[str]: image classes
+    """
 
     images_numpy = []
     images_class = []
@@ -40,9 +55,15 @@ def load_images(image_types=None,
 
 
 def process_images_class(images_class):
+    """
+    Convert images_class to a binary class matrix. This creates the
+    target values for the model.
+
+    :param list[str] images_class: the class of each image
+    :return list[list[int]]: the labels for each image
+    """
 
     images_class_to_int_map = {image: i for (i, image) in enumerate(sorted(set(images_class)))}
-    images_class_to_int_map = {'bed': 0, 'lamp': 1, 'couch': 2, 'table': 3, 'chair': 4}
     print('Mapping:\n{}'.format(images_class_to_int_map))
     images_class_int = [images_class_to_int_map[i] for i in images_class]
 
