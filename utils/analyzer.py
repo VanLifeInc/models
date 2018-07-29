@@ -1,3 +1,7 @@
+"""
+Analyzer is the primary tool to analyze the results of our models.
+"""
+
 import operator
 from collections import Counter
 
@@ -21,15 +25,15 @@ class Analyzer:
                     model):
         """
         Load images and classes from a directory with the option to
-        process the images to be used by a model.
+        process the images and classes that will be used by a model.
 
         :param list[str] image_types: classes of images to load
         :param str directory: location of folders for each image class
         :param int images_per_type: number of images to load for each
             class
         :param int image_size: length and width of the loaded images
-        :param bool process: option to process the images so that they
-            can be used to train and test the model
+        :param bool process: option to process the images and classes so
+            that they can be used to train and test the model
         :param keras.application model: model for which to process the
             images
         :return list[list]: loaded images
@@ -68,6 +72,7 @@ class Analyzer:
         """
 
         indicies = [max(enumerate(values[i]), key=operator.itemgetter(1))[0] for i in range(len(values))]
+
         return indicies
 
     def _get_predicted_indicies(self, predictions, answers):
@@ -86,6 +91,7 @@ class Analyzer:
 
         indicies_correct = []
         indicies_incorrect = []
+
         for i in range(len(indicies_predictions)):
             if indicies_predictions[i] == indicies_actuals[i]:
                 indicies_correct.append(i)
@@ -111,6 +117,7 @@ class Analyzer:
         if simple:
             accuracy = round(len(indicies_correct) / len(predictions) * 100, 2)
             print('Overall Accuracy: {}%'.format(accuracy))
+
         else:
             counts_correct = Counter(self._get_index_for_max_value(answers[indicies_correct]))
             counts_incorrect = Counter(self._get_index_for_max_value(answers[indicies_incorrect]))
@@ -150,8 +157,8 @@ class Analyzer:
 
         if correctness != None:
             indicies_correct, indicies_incorrect = self._get_predicted_indicies(predictions, answers)
-
             indicies = indicies_correct if correctness == 'correct' else indicies_incorrect
+
         else:
             indicies = [i for i in range(len(predictions))]
 
@@ -164,6 +171,7 @@ class Analyzer:
             if len(indicies) < sample_count:
                 print('NOTE!!!\nOnly {} images qualify for this filter.\n'.format(len(indicies)))
                 sample_count = min(sample_count, len(indicies))
+
             indicies = np.random.choice(indicies, size=sample_count, replace=False)
 
         for i, index in enumerate(indicies):

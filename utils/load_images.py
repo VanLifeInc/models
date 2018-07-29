@@ -15,7 +15,7 @@ def load_images(image_types=None,
                 model=mobilenet_v2):
     """
     Load images and classes from a directory with the option to process
-    the images to be used by a model.
+    the images and classes that will be used by a model.
 
     :param list[str] image_types: classes of images to load
     :param str directory: location of folders for each image class
