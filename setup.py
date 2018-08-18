@@ -13,7 +13,7 @@ with open(PATH_VERSION, 'r', 'utf-8') as f:
 
 setup(
     name='models',
-    version='0.0.2',
+    version='0.3.0',
     long_description='Van Life Inc.\'s modelling repo',
     install_requires=[
         'defusedxml==0.5.0',
@@ -28,5 +28,7 @@ setup(
         'pandas==0.23.0',
         'requests==2.18.4',
         'scikit-learn==0.18.1',
+        'scipy==1.1.0',
+        'tqdm==4.19.5',
     ],
 )
