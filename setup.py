@@ -13,7 +13,7 @@ with open(PATH_VERSION, 'r', 'utf-8') as f:
 
 setup(
     name='models',
-    version='0.3.0',
+    version='0.3.1',
     long_description='Van Life Inc.\'s modelling repo',
     install_requires=[
         'defusedxml==0.5.0',
