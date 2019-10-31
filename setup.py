@@ -26,7 +26,7 @@ setup(
         'matplotlib==2.2.2',
         'numpy==1.14.0',
         'pandas==0.23.0',
-        'requests==2.18.4',
+        'requests==2.20.0',
         'scikit-learn==0.18.1',
         'scipy==1.1.0',
         'tqdm==4.19.5',
