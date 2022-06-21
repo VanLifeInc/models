@@ -24,7 +24,7 @@ setup(
         'Keras-Applications==1.0.2',
         'Keras-Preprocessing==1.0.1',
         'matplotlib==2.2.2',
-        'numpy==1.14.0',
+        'numpy==1.22.0',
         'pandas==0.23.0',
         'requests==2.18.4',
         'scikit-learn==0.18.1',
